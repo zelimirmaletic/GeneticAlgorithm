@@ -8,3 +8,6 @@ def mathFunction(x):
     #define function
     y = x*x + 10*m.cos(x-5)
     return y
+
+#Minimum of this function is at x=1.544 and it is y=-7.126
+

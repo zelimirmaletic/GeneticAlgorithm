@@ -29,6 +29,16 @@ def codeBinary(precision, numberForCoding, bottomBoundary, topBoundary):
             difference -= 1
     return binaryNumber
 
+def decodeBinary(precision, numberForDecoding, bottomBoundary, topBoundary):
+    numberOfBits = len(numberForDecoding)
+    numberOfIntervals = 0
+    for bit,i in zip(reversed(numberForDecoding),range(numberOfBits)):
+        if (bit == '1'):
+            numberOfIntervals += math.pow(2, i)
+    #Recalculate number
+    x = bottomBoundary + (((topBoundary-bottomBoundary)/(pow(2,numberOfBits)-1))*numberOfIntervals)
+    return x
+
 #Transform one interval to another one
 def transformToInterval(number, bottomOriginal, topOriginal, bottomNew, topNew):
     k = (topNew-bottomNew)/(topOriginal-bottomOriginal)
@@ -63,7 +73,5 @@ def populationFitnessScore(functionValuesList):
 
 
 #Tests
-#print(codeBinary(2, -9.3111, -10, 10))
-#print(transformToInterval(1,0,1,-10,10))
 
 #x = [-9.3111, -1.2251, -2.3688, 5.3103, 5.9040, -6.2625, -0.2047, -1.0883]
