@@ -1,8 +1,8 @@
 """General algorithm parameters"""
 RECOMBINARION_PROB = 0.15
 MUTATION_PROB = 0.05
-POPULATION_SIZE = 8
+POPULATION_SIZE = 20
 PRECISION = 2
-EXTREMUM = "min" #can be min or max
+EXTREMUM = "max" #can be min or max
 NUMBER_OF_PAIRS = 5
-NUMBER_OF_ITERATIONS = 100
+NUMBER_OF_ITERATIONS = 16

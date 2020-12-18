@@ -29,7 +29,7 @@ def codeBinary(precision, numberForCoding, bottomBoundary, topBoundary):
             difference -= 1
     return binaryNumber
 
-def decodeBinary(precision, numberForDecoding, bottomBoundary, topBoundary):
+def decodeBinary(numberForDecoding, bottomBoundary, topBoundary):
     numberOfBits = len(numberForDecoding)
     numberOfIntervals = 0
     for bit,i in zip(reversed(numberForDecoding),range(numberOfBits)):
@@ -46,7 +46,7 @@ def transformToInterval(number, bottomOriginal, topOriginal, bottomNew, topNew):
     return (k*number + n)
 
 #Transforms values of function to make them all positive
-def functionTransformation(functionValuesList, extremum):
+def fitnessFunction(functionValuesList, extremum):
     translatedValues = []
     if (extremum == "max"):
         sortedList = sorted(functionValuesList)
@@ -72,6 +72,4 @@ def populationFitnessScore(functionValuesList):
 
 
 
-#Tests
 
-#x = [-9.3111, -1.2251, -2.3688, 5.3103, 5.9040, -6.2625, -0.2047, -1.0883]

@@ -52,7 +52,7 @@ class Chromosome:
         dna = otherChromosome.getDNASequenceX()
         otherChromosome.setDnaSequenceX(dna.replace(dna[disectionPoint:],sequence1))
         #Regenerate coordinates from new DNAs
-        self.setX(bin.decodeBinary(param.PRECISION, self.getDNASequenceX(), fun.LOWER_X, fun.UPPER_X))
+        self.setX(bin.decodeBinary(self.getDNASequenceX(), fun.LOWER_X, fun.UPPER_X))
     
     #Method for mutating a chromosome
     def mutate(self):
@@ -68,7 +68,7 @@ class Chromosome:
             dnaList[index]='1'
         self.setDnaSequenceX("".join(dnaList))
         #Regenerate coordinates from new DNAs
-        self.setX(bin.decodeBinary(param.PRECISION, self.getDNASequenceX(), fun.LOWER_X, fun.UPPER_X))
+        self.setX(bin.decodeBinary(self.getDNASequenceX(), fun.LOWER_X, fun.UPPER_X))
 
 
 
