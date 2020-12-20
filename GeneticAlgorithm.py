@@ -59,7 +59,7 @@ subPopulation = []
 
 for x in range(param.NUMBER_OF_ITERATIONS):
     """ Phase No.3 - SELECTION """
-    subPopulation = phase.selection(population)
+    subPopulation = phase.selection(population, param.SELECTION_METHOD)
     """ Phase No.4 Recombination/Crossover """
     subPopulation = phase.crossover(subPopulation)
     """ Phase No.5 Mutation """

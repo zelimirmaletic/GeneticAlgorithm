@@ -61,34 +61,53 @@ def fitnessEvaluation(population):
     return population,extremumValue
 
 """ SELECTION """
-def selection(population):
-    #Roulette selection
-    #calculate probabilities for every chromosome
-    fitnessValues = []
-    for chrom in population:
-        fitnessValues.append(chrom.getFitnessValue())
-    probabilities = bin.calculateProbabilities(fitnessValues)
-    #set probabilities
-    for value,chrom in zip(probabilities,population):
-        chrom.setProbability(value)
-    #Define boundaries on the rulette propottional to probabilities
-    sum = 0.0
-    for chrom in population:
-        sum += chrom.getProbability()
-        chrom.setRouletteBoundary(sum)
-    #Make a new empty subpopulation
-    subPopulation = []
-    #Spinning the roulette 
-    for value in range(param.POPULATION_SIZE):
-        randomNumber = random.uniform(0,1)
-        #see which chromosome is the chosen one
+def selection(population, selectionMethod):
+    if(selectionMethod=="roulette"):
+        #Roulette selection
+        #calculate probabilities for every chromosome
+        fitnessValues = []
         for chrom in population:
-            if(randomNumber <= chrom.getBoundary()):
-                #if selected add it to a new population
-                subPopulation.append(chrom)
-                break
-    #print("Sub population size: ", len(subPopulation))
-    return subPopulation
+            fitnessValues.append(chrom.getFitnessValue())
+        probabilities = bin.calculateProbabilities(fitnessValues)
+        #set probabilities
+        for value,chrom in zip(probabilities,population):
+            chrom.setProbability(value)
+        #Define boundaries on the rulette propottional to probabilities
+        sum = 0.0
+        for chrom in population:
+            sum += chrom.getProbability()
+            chrom.setRouletteBoundary(sum)
+        #Make a new empty subpopulation
+        subPopulation = []
+        #Spinning the roulette 
+        for value in range(param.POPULATION_SIZE):
+            randomNumber = random.uniform(0,1)
+            #see which chromosome is the chosen one
+            for chrom in population:
+                if(randomNumber <= chrom.getBoundary()):
+                    #if selected add it to a new population
+                    subPopulation.append(chrom)
+                    break
+        return subPopulation
+
+    elif(selectionMethod=="elitistic"):
+        sortedPopulation = population
+        #Elitist selection
+        newSubPopulation = []
+        #Sort chromosomes by fitness value based on EXTREMUM parameter
+        if(param.EXTREMUM == "min"):
+            sortedPopulation.sort(key=lambda e:e.fitnessValue)
+            for x in range(int(param.POPULATION_SIZE /2)):
+                newSubPopulation.append(sortedPopulation[x])
+                newSubPopulation.append(sortedPopulation[x])
+        if(param.EXTREMUM == "max"):
+            sortedPopulation.sort(key=lambda e:e.fitnessValue, reverse=True)
+            for x in range(int(param.POPULATION_SIZE /2)):
+                newSubPopulation.append(sortedPopulation[x])
+                newSubPopulation.append(sortedPopulation[x])
+        return newSubPopulation
+    else:
+        print("Selection method error!")
 
 """ CROSSOVER """
 def crossover(population):
