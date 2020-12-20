@@ -50,11 +50,12 @@ def transformToInterval(number, bottomOriginal, topOriginal, bottomNew, topNew):
 def fitnessFunction(functionValuesList, extremum):
     translatedValues = []
     if (extremum == "max"):
-        sortedList = sorted(functionValuesList)
-        minimalValue = sortedList[0]
+        #sortedList = sorted(functionValuesList)
+        #minimalValue = sortedList[0]
         for value in functionValuesList:
             #translate function
-            translatedValues.append(value-minimalValue)
+            #translatedValues.append(value-minimalValue)
+            translatedValues.append(value)
     elif (extremum == "min"):
         #sortedList = sorted(functionValuesList, reverse=True)
         #maximalValue = sortedList[0]

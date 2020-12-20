@@ -34,7 +34,7 @@ import numpy as np
 
 """Make main polot of function"""
 # Data for plotting
-x = np.arange(fun.LOWER_X,fun.UPPER_X, 0.05)
+x = np.arange(fun.LOWER_X,fun.UPPER_X, 0.1)
 y=[]
 for value in x:
     y.append(fun.mathFunction(value))
@@ -48,14 +48,13 @@ globalExtremum = 0.0
 initialPopulation = phase.initializePopulation()
 #plot initial population
 for chrom in initialPopulation:
-    ax.scatter(chrom.getX(), fun.mathFunction(chrom.getX()),c="red",label="initial")
+    ax.scatter(chrom.getX(), fun.mathFunction(chrom.getX()),c="red",label="initial",marker=8)
 """ Phase No.2 - Fitness Function """
 population,globalExtremum = phase.fitnessEvaluation(initialPopulation)
 populationFitnessScore = bin.calculatePopulationFitnessScore(population)
 print("Initial population fitness score: ", populationFitnessScore)
-#Loop while the difference between populations is less than 
-#imporovementFactor=subpopFitScore/popFitScore
-improvementFactor = 1.0
+
+#Make a new subpopulation
 subPopulation = []
 
 for x in range(param.NUMBER_OF_ITERATIONS):
@@ -70,15 +69,13 @@ for x in range(param.NUMBER_OF_ITERATIONS):
     subPopulation,localExtremum = phase.fitnessEvaluation(subPopulation)
     subPopulationFitnessScore = bin.calculatePopulationFitnessScore(subPopulation)
     print("SubPopulation fitness score: ",subPopulationFitnessScore)
-    #Calculate improvement factor
-    improvementFactor = m.abs(subPopulationFitnessScore/populationFitnessScore)
-    if(localExtremum <= globalExtremum or subPopulationFitnessScore >= populationFitnessScore):
+    #plot subpopulation
+    for chrom in subPopulation:
+        ax.scatter(chrom.getX(), fun.mathFunction(chrom.getX()),c="blue",label="subgeneration",marker=9)
+    if(localExtremum >= globalExtremum and subPopulationFitnessScore >= populationFitnessScore):
         population = subPopulation
         populationFitnessScore = subPopulationFitnessScore
         globalExtremum=localExtremum
-        #plot subpopulation
-        for chrom in subPopulation:
-            ax.scatter(chrom.getX(), fun.mathFunction(chrom.getX()),c="yellow",label="subgeneration")
         print("POPULATION CHANGE")
 
 print("Final population fitness score: ", populationFitnessScore)

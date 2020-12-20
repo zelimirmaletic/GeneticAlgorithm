@@ -71,8 +71,6 @@ class Chromosome:
         #Regenerate coordinates from new DNAs
         self.setX(bin.decodeBinary(self.getDNASequenceX(), fun.LOWER_X, fun.UPPER_X))
 
-
-
     def printChromosome(self):
         print("Chromosome ")
         print("     coordinate: ",self.xCoordinate)
