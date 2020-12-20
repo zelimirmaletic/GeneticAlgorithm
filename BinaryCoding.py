@@ -1,5 +1,6 @@
 import math
 import function as f
+import parameters as param
 
 #Binary coding of decimal numbers
 def codeBinary(precision, numberForCoding, bottomBoundary, topBoundary):
@@ -55,21 +56,28 @@ def fitnessFunction(functionValuesList, extremum):
             #translate function
             translatedValues.append(value-minimalValue)
     elif (extremum == "min"):
-        sortedList = sorted(functionValuesList, reverse=True)
-        maximalValue = sortedList[0]
-        for value in functionValuesList:
+        #sortedList = sorted(functionValuesList, reverse=True)
+        #maximalValue = sortedList[0]
+        #for value in functionValuesList:
             #rotate function around an axis and translate
-            translatedValues.append(maximalValue-value)
+        #    translatedValues.append(maximalValue-value)
+        for value in functionValuesList:
+            translatedValues.append(-value)
     return translatedValues
 
+def calculateProbabilities(fitnessValues):
+    populationFitnessScore = 0.0
+    for x in fitnessValues:
+        populationFitnessScore+=x
+    probabilities = []
+    for x in fitnessValues:
+        probabilities.append(x/populationFitnessScore)
+    return probabilities
 
-def populationFitnessScore(functionValuesList):
+def calculatePopulationFitnessScore(population):
     #simply sum all the values
-    sum = 0
-    for value in functionValuesList:
-        sum += value
-    return sum
-
-
-
+    populationFitnessScore = 0.0
+    for chrom in population:
+        populationFitnessScore += chrom.getFitnessValue()
+    return populationFitnessScore
 

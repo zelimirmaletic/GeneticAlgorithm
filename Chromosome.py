@@ -31,8 +31,8 @@ class Chromosome:
         self.xCoordinate = value
     def setFitnessValue(self, fitnessValue):
         self.fitnessValue = fitnessValue
-    def setProbability(self, populationFitnessScore):
-        self.probability = self.fitnessValue / populationFitnessScore
+    def setProbability(self,probability):
+        self.probability = probability
     def setRouletteBoundary(self, boundary):
         self.rouletteBoundary = boundary
     def setDnaSequenceX(self, sequence):
@@ -53,6 +53,7 @@ class Chromosome:
         otherChromosome.setDnaSequenceX(dna.replace(dna[disectionPoint:],sequence1))
         #Regenerate coordinates from new DNAs
         self.setX(bin.decodeBinary(self.getDNASequenceX(), fun.LOWER_X, fun.UPPER_X))
+        otherChromosome.setX(bin.decodeBinary(otherChromosome.getDNASequenceX(), fun.LOWER_X, fun.UPPER_X))
     
     #Method for mutating a chromosome
     def mutate(self):
@@ -74,11 +75,11 @@ class Chromosome:
 
     def printChromosome(self):
         print("Chromosome ")
-        print(self.xCoordinate)
-        print(self.xDNA)
-        print(self.fitnessValue)
-        print(self.probability)
-        print(self.rouletteBoundary)
+        print("     coordinate: ",self.xCoordinate)
+        print("     dna: ",self.xDNA)
+        print("     fitness value: ",self.fitnessValue)
+        print("     probability: ",self.probability)
+        print("     roulette boundary: ", self.rouletteBoundary)
         print("------------")
 
     
