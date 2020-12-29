@@ -19,7 +19,7 @@ STOP
 """
 
 #Libraries
-from AlgorithmPhaseFunctions import initializePopulation
+from AlgorithmPhaseFunctions import initializePopulation, populationChangeCondition
 import random
 import math as m
 import function as fun
@@ -72,7 +72,7 @@ for x in range(param.NUMBER_OF_ITERATIONS):
     #plot subpopulation
     for chrom in subPopulation:
         ax.scatter(chrom.getX(), fun.mathFunction(chrom.getX()),c="blue",label="subgeneration",marker=9)
-    if(localExtremum >= globalExtremum and subPopulationFitnessScore >= populationFitnessScore):
+    if(populationChangeCondition(localExtremum,globalExtremum,subPopulationFitnessScore,populationFitnessScore)):
         population = subPopulation
         populationFitnessScore = subPopulationFitnessScore
         globalExtremum=localExtremum

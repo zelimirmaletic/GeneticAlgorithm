@@ -9,3 +9,4 @@ __pycache__/function.cpython-38.pyc
 __pycache__/GeneticAlgorithm.cpython-38.pyc
 __pycache__/Hromozome.cpython-38.pyc
 __pycache__/parameters.cpython-38.pyc
+tests/UnitTests.py

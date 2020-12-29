@@ -1,9 +1,9 @@
 """General algorithm parameters"""
 RECOMBINARION_PROB = 0.5
 MUTATION_PROB = 0.05
-POPULATION_SIZE = 8
+POPULATION_SIZE = 10
 PRECISION = 2
-EXTREMUM = "max" #can be min or max
-NUMBER_OF_PAIRS = 10
+EXTREMUM = "min" #can be min or max
+NUMBER_OF_PAIRS = 20
 NUMBER_OF_ITERATIONS = 5
-SELECTION_METHOD = "elitistic"
+SELECTION_METHOD = "roulette"

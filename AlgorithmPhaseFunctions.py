@@ -137,3 +137,14 @@ def mutation(population):
         if(randomNumber < param.MUTATION_PROB):
             population[x].mutate()
     return population
+
+
+#When to change population?
+def populationChangeCondition(localExtremum, globalExtremum, subPopulationScore, populationScore):
+    if(param.EXTREMUM == "max"):
+        if(localExtremum>=globalExtremum and subPopulationScore>=populationScore):
+            return True
+        if(param.EXTREMUM == "min"):
+            if(localExtremum<=globalExtremum and subPopulationScore<=populationScore):
+                return True
+        return False

@@ -8,35 +8,53 @@ class Chromosome:
     #Data
     xCoordinate = 0.0
     xDNA = ""
+    yCoordinate = 0.0
+    yDNA = ""
+
     fitnessValue = 0.0
     probability = 0.0
     rouletteBoundary = 0.0
 
-    def __init__(self, xCoordinate, xDNA):
+    def __init__(self, xCoordinate, xDNA,yCoordinate, yDNA):
         self.xDNA = xDNA
         self.xCoordinate = xCoordinate
+        self.yDNA = yDNA
+        self.yCoordinate = yCoordinate
     #Getters
     def getDNASequenceX(self):
         return self.xDNA
     def getX(self):
         return self.xCoordinate
+    def getDNASequenceY(self):
+        return self.yDNA
+    def getY(self):
+        return self.yCoordinate
+
     def getFitnessValue(self):
         return self.fitnessValue
     def getProbability(self):
         return self.probability
     def getBoundary(self):
         return self.rouletteBoundary
+
     #Setters
     def setX(self, value):
         self.xCoordinate = value
+    def setDnaSequenceX(self, sequence):
+        self.xDNA = sequence
+    def setDnaSequenceY(self, value):
+        self.yCoordinate = value
+    def setY(self, sequence):
+        self.yDNA = sequence
+ 
+
     def setFitnessValue(self, fitnessValue):
         self.fitnessValue = fitnessValue
     def setProbability(self,probability):
         self.probability = probability
     def setRouletteBoundary(self, boundary):
         self.rouletteBoundary = boundary
-    def setDnaSequenceX(self, sequence):
-        self.xDNA = sequence
+
 
     #Methond for recombining two chromosomes
     def recombine(self, otherChromosome):
@@ -73,8 +91,10 @@ class Chromosome:
 
     def printChromosome(self):
         print("Chromosome ")
-        print("     coordinate: ",self.xCoordinate)
-        print("     dna: ",self.xDNA)
+        print("     X-coordinate: ",self.xCoordinate)
+        print("     Y-coordinate: ",self.yCoordinate)
+        print("     X-dna: ",self.xDNA)
+        print("     Y-dna: ",self.yDNA)
         print("     fitness value: ",self.fitnessValue)
         print("     probability: ",self.probability)
         print("     roulette boundary: ", self.rouletteBoundary)
