@@ -65,7 +65,7 @@ class Chromosome:
         disectionPoint = m.floor(bin.transformToInterval(randomNumber,0,1,1,len(self.xDNA)))
         #Now disect both DNAs and get sequence right of disection point
         sequence1 = self.xDNA[disectionPoint:]
-        sequence2 = (otherChromosome. getDNASequenceX())[disectionPoint:]
+        sequence2 = (otherChromosome.getDNASequenceX())[disectionPoint:]
         #Interchange the parts of DNA right from disection point
         self.setDnaSequenceX(self.xDNA.replace(self.xDNA[disectionPoint:], sequence2))
         dna = otherChromosome.getDNASequenceX()
@@ -73,6 +73,7 @@ class Chromosome:
         #Regenerate coordinates from new DNAs
         self.setX(bin.decodeBinary(self.getDNASequenceX(), fun.LOWER_X, fun.UPPER_X))
         otherChromosome.setX(bin.decodeBinary(otherChromosome.getDNASequenceX(), fun.LOWER_X, fun.UPPER_X))
+
         """Y-coordinate"""
         #Choose a point on which we break DNA and interchange right parts
         randomNumber = random.uniform(0,1)
@@ -80,7 +81,7 @@ class Chromosome:
         disectionPoint = m.floor(bin.transformToInterval(randomNumber,0,1,1,len(self.yDNA)))
         #Now disect both DNAs and get sequence right of disection point
         sequence1 = self.yDNA[disectionPoint:]
-        sequence2 = (otherChromosome. getDNASequenceY())[disectionPoint:]
+        sequence2 = (otherChromosome.getDNASequenceY())[disectionPoint:]
         #Interchange the parts of DNA right from disection point
         self.setDnaSequenceY(self.yDNA.replace(self.yDNA[disectionPoint:], sequence2))
         dna = otherChromosome.getDNASequenceY()
@@ -107,6 +108,7 @@ class Chromosome:
         self.setDnaSequenceX("".join(dnaList))
         #Regenerate coordinates from new DNAs
         self.setX(bin.decodeBinary(self.getDNASequenceX(), fun.LOWER_X, fun.UPPER_X))
+        
         """Y-coordinate"""
         #Generate random number
         randomNumber = random.uniform(0,1)

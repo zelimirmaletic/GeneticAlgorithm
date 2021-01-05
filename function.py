@@ -7,6 +7,9 @@ UPPER_X = 3.00
 LOWER_Y = -4.00
 UPPER_Y = 4.00
 
+LOWER_Z = -6.00
+UPPER_Z = 6.00
+
 def mathFunction(x,y):
     #y =x*x + 10.0*m.cos(x-5.00)
     #Minimum of this function is at x=1.544 and it is y=-7.126

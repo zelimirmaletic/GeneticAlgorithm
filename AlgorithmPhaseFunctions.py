@@ -14,22 +14,27 @@ def initializePopulation():
     #Generate a population of random numbers
     for i in range(param.POPULATION_SIZE):
         #generate a random number from [0,1] interval
-        randomNumber = random.uniform(0,1)
+        randomNumber1 = random.uniform(0,1)
+        randomNumber2 = random.uniform(0,1)
         #Translate generated number into a point from function extremum interval
-        coordinate = bin.transformToInterval(randomNumber,0,1,fun.LOWER_X, fun.UPPER_X)
+        coordinateX = bin.transformToInterval(randomNumber1,0,1,fun.LOWER_X, fun.UPPER_X)
+        coordinateY = bin.transformToInterval(randomNumber2,0,1,fun.LOWER_Y, fun.UPPER_Y)
         #code point in binary
-        binarySequence = bin.codeBinary(param.PRECISION, coordinate, fun.LOWER_X, fun.UPPER_X )
+        binarySequenceX = bin.codeBinary(param.PRECISION, coordinateX, fun.LOWER_X, fun.UPPER_X)
+        binarySequenceY = bin.codeBinary(param.PRECISION, coordinateY, fun.LOWER_Y, fun.UPPER_Y)
         #make a new chromosome
-        newChromosome = hrom.Chromosome(coordinate, binarySequence)
+        newChromosome = hrom.Chromosome(coordinateX, binarySequenceX, coordinateY, binarySequenceY)
         #add it to the population
         population.append(newChromosome)
     #calculate initial fitness values
-    coordinates = []
+    coordinatesX = []
+    coordinatesY = []
     for chrom in population:
-        coordinates.append(chrom.getX())
+        coordinatesX.append(chrom.getX())
+        coordinatesY.append(chrom.getY())
     functionValues = []
-    for x in coordinates:
-        functionValues.append(fun.mathFunction(x))
+    for x,y in zip(coordinatesX,coordinatesY):
+        functionValues.append(fun.mathFunction(x,y))
     fitnessValues = bin.fitnessFunction(functionValues,param.EXTREMUM)
     #Store fitness values to chromosomes
     i = 0
@@ -43,7 +48,7 @@ def fitnessEvaluation(population):
     #Calculate function values in points
     functionValues = []
     for chromosome in population:
-        functionValues.append(fun.mathFunction(chromosome.getX()))
+        functionValues.append(fun.mathFunction(chromosome.getX(), chromosome.getY()))
     #Calculate fitness values for chromosomes
     fitnessValues = bin.fitnessFunction(functionValues,param.EXTREMUM)
     #Store fitness values to chromosomes
@@ -54,9 +59,9 @@ def fitnessEvaluation(population):
     #Determine minimal/maximal function value
     extremumValue = functionValues[0]
     for value in functionValues:
-        if(param.EXTREMUM=="min" and value<extremumValue):
-            extremumValue=value
-        elif(param.EXTREMUM=="max" and value>extremumValue):
+        if(param.EXTREMUM == "min" and value<extremumValue):
+            extremumValue = value
+        elif(param.EXTREMUM == "max" and value>extremumValue):
             extremumValue = value
     return population,extremumValue
 
@@ -109,7 +114,7 @@ def selection(population, selectionMethod):
     else:
         print("Selection method error!")
 
-""" CROSSOVER """
+""" CROSSOVER/RECOMBINATION """
 def crossover(population):
     #Mix chromosomes in a generated sub-population
     for x in range(param.NUMBER_OF_PAIRS):
