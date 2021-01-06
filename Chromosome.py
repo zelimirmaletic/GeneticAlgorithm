@@ -42,11 +42,12 @@ class Chromosome:
         self.xCoordinate = value
     def setDnaSequenceX(self, sequence):
         self.xDNA = sequence
-    def setDnaSequenceY(self, value):
+
+    def setY(self, value):
         self.yCoordinate = value
-    def setY(self, sequence):
+    def setDnaSequenceY(self, sequence):
         self.yDNA = sequence
- 
+    
 
     def setFitnessValue(self, fitnessValue):
         self.fitnessValue = fitnessValue
@@ -135,4 +136,3 @@ class Chromosome:
         print("     roulette boundary: ", self.rouletteBoundary)
         print("------------")
 
-    

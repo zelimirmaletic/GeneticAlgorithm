@@ -59,9 +59,9 @@ def fitnessEvaluation(population):
     #Determine minimal/maximal function value
     extremumValue = functionValues[0]
     for value in functionValues:
-        if(param.EXTREMUM == "min" and value<extremumValue):
+        if(param.EXTREMUM == "min" and value < extremumValue):
             extremumValue = value
-        elif(param.EXTREMUM == "max" and value>extremumValue):
+        elif(param.EXTREMUM == "max" and value > extremumValue):
             extremumValue = value
     return population,extremumValue
 
@@ -95,22 +95,20 @@ def selection(population, selectionMethod):
                     break
         return subPopulation
 
-    elif(selectionMethod=="elitistic"):
-        sortedPopulation = population
-        #Elitist selection
-        newSubPopulation = []
-        #Sort chromosomes by fitness value based on EXTREMUM parameter
-        if(param.EXTREMUM == "min"):
-            sortedPopulation.sort(key=lambda e:e.fitnessValue)
-            for x in range(int(param.POPULATION_SIZE /2)):
-                newSubPopulation.append(sortedPopulation[x])
-                newSubPopulation.append(sortedPopulation[x])
-        if(param.EXTREMUM == "max"):
-            sortedPopulation.sort(key=lambda e:e.fitnessValue, reverse=True)
-            for x in range(int(param.POPULATION_SIZE /2)):
-                newSubPopulation.append(sortedPopulation[x])
-                newSubPopulation.append(sortedPopulation[x])
-        return newSubPopulation
+    elif(selectionMethod=="tournament"):
+        #Make an empty subpopulation
+        subPopulation = []
+        for i in range(param.POPULATION_SIZE):
+            #make a list of randomly selected chromosomes
+            randomlySelectedChromosomes = []
+            for i in range(param.TOURNAMENT_PRESSURE):
+                randomNumber = random.uniform(0,1)
+                index = int(bin.transformToInterval(randomNumber,0,1,0,param.TOURNAMENT_PRESSURE))
+                randomlySelectedChromosomes.append(population[index])
+            randomlySelectedChromosomes.sort(key=lambda e:e.fitnessValue, reverse=True)
+            subPopulation.append(randomlySelectedChromosomes[0])
+        return subPopulation
+
     else:
         print("Selection method error!")
 
@@ -147,9 +145,9 @@ def mutation(population):
 #When to change population?
 def populationChangeCondition(localExtremum, globalExtremum, subPopulationScore, populationScore):
     if(param.EXTREMUM == "max"):
-        if(localExtremum>=globalExtremum and subPopulationScore>=populationScore):
+        if(localExtremum >= globalExtremum and subPopulationScore >= populationScore):
             return True
-        if(param.EXTREMUM == "min"):
-            if(localExtremum<=globalExtremum and subPopulationScore<=populationScore):
-                return True
-        return False
+    if(param.EXTREMUM == "min"):
+        if(localExtremum <= globalExtremum and subPopulationScore >= populationScore):
+            return True
+    return False

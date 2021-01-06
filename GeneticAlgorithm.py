@@ -55,8 +55,6 @@ globalExtremum = 0.0
 """ Phase No.1 - Initialization Of The Population """
 #Make a population of chromosomes
 initialPopulation = phase.initializePopulation()
-for chrom in initialPopulation:
-    chrom.printChromosome()
 #plot initial population
 for chrom in initialPopulation:
     ax.scatter(chrom.getX(),chrom.getY() , fun.mathFunction(chrom.getX(),chrom.getY()),c="red",label="initial",marker=8)
@@ -86,15 +84,15 @@ for x in range(param.NUMBER_OF_ITERATIONS):
     if(populationChangeCondition(localExtremum,globalExtremum,subPopulationFitnessScore,populationFitnessScore)):
         population = subPopulation
         populationFitnessScore = subPopulationFitnessScore
-        globalExtremum=localExtremum
-        print("POPULATION CHANGE")
+        globalExtremum = localExtremum
+        print("POPULATION CHANGED")
 
 print("Final population fitness score: ", populationFitnessScore)
-population.sort(key=lambda e: e.fitnessValue, reverse=True)
-ax.scatter(population[0].getX(),population[0].getY(), fun.mathFunction(population[0].getX(),population[0].getY()),c="green",label="best")
-print("SOLUTION: ", fun.mathFunction(population[0].getX(),population[0].getY()))
+population.sort(key = lambda e: e.fitnessValue, reverse = True)
+ax.scatter(population[0].getX(),population[0].getY(), fun.mathFunction(population[0].getX(),population[0].getY()),c="black",label="best")
+print("SOLUTION: x=",population[0].getX()," y=",population[0].getY()," z=", fun.mathFunction(population[0].getX(),population[0].getY()))
 
 ax.set(xlabel='x-axis', ylabel='y-axis',
        title='Genetic Algotithm')
 ax.grid()
-plt.show()
+#plt.show()

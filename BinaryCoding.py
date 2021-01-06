@@ -69,10 +69,10 @@ def fitnessFunction(functionValuesList, extremum):
 def calculateProbabilities(fitnessValues):
     populationFitnessScore = 0.0
     for x in fitnessValues:
-        populationFitnessScore+=x
+        populationFitnessScore += x
     probabilities = []
     for x in fitnessValues:
-        probabilities.append(x/populationFitnessScore)
+        probabilities.append(x / populationFitnessScore)
     return probabilities
 
 def calculatePopulationFitnessScore(population):
