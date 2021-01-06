@@ -37,17 +37,13 @@ import numpy as np
 # Axis
 x = np.linspace(fun.LOWER_X, fun.UPPER_X, 50)
 y = np.linspace(fun.LOWER_Y, fun.UPPER_Y, 50)
+
 #Ploting
 X,Y = np.meshgrid(x,y)
 Z = fun.mathFunction(X,Y)
 figure = plt.figure()
 ax = plt.axes(projection='3d')
-ax.plot_surface(X,Y,Z, rstride=1, cstride=1, cmap='viridis',edgecolor='none')
-ax.set_xlabel('x')
-ax.set_ylabel('y')
-ax.set_zlabel('z')
-
-
+ax.plot_surface(X,Y,Z, rstride=1, cstride=1, alpha=0.6 ,cmap='binary',edgecolor='none')
 
 
 globalExtremum = 0.0
@@ -78,21 +74,19 @@ for x in range(param.NUMBER_OF_ITERATIONS):
     subPopulation,localExtremum = phase.fitnessEvaluation(subPopulation)
     subPopulationFitnessScore = bin.calculatePopulationFitnessScore(subPopulation)
     print("SubPopulation fitness score: ",subPopulationFitnessScore)
-    #plot subpopulation
-    for chrom in subPopulation:
-        ax.scatter(chrom.getX(), chrom.getY(), fun.mathFunction(chrom.getX(),chrom.getY()),c="blue",label="subgeneration",marker=9)
     if(populationChangeCondition(localExtremum,globalExtremum,subPopulationFitnessScore,populationFitnessScore)):
         population = subPopulation
         populationFitnessScore = subPopulationFitnessScore
         globalExtremum = localExtremum
         print("POPULATION CHANGED")
-
+#plot final population
+for chrom in population:
+    ax.scatter(chrom.getX(), chrom.getY(), fun.mathFunction(chrom.getX(),chrom.getY()),c="green",label="subgeneration",marker=9)
 print("Final population fitness score: ", populationFitnessScore)
 population.sort(key = lambda e: e.fitnessValue, reverse = True)
-ax.scatter(population[0].getX(),population[0].getY(), fun.mathFunction(population[0].getX(),population[0].getY()),c="black",label="best")
+ax.scatter(population[0].getX(),population[0].getY(), fun.mathFunction(population[0].getX(),population[0].getY()),c="blue",label="best")
 print("SOLUTION: x=",population[0].getX()," y=",population[0].getY()," z=", fun.mathFunction(population[0].getX(),population[0].getY()))
 
-ax.set(xlabel='x-axis', ylabel='y-axis',
-       title='Genetic Algotithm')
+ax.set(xlabel='x-osa', ylabel='y-osa', zlabel='z-osa', title='Genetički algoritam')
 ax.grid()
-#plt.show()
+plt.show()

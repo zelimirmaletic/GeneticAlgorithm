@@ -109,6 +109,14 @@ def selection(population, selectionMethod):
             subPopulation.append(randomlySelectedChromosomes[0])
         return subPopulation
 
+    elif(selectionMethod == "elite"):
+        subPopulation = []
+        sortedPopulation = population
+        sortedPopulation.sort(key=lambda e:e.fitnessValue, reverse=True)
+        for x in range(int(param.POPULATION_SIZE/2)):
+            subPopulation.append(sortedPopulation[x])
+            subPopulation.append(sortedPopulation[x])
+        return subPopulation
     else:
         print("Selection method error!")
 
