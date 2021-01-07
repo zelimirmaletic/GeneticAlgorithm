@@ -6,14 +6,16 @@ Faculty of Electrical Engineering Banja Luka
 """
 
 """
+Pseudo-code:
+
 START
-Generate the initial population *
-Compute fitness *
+Generate the initial population
+Compute fitness 
 REPEAT
-    Selection *
-    Crossover *
-    Mutation *
-    Compute fitness *
+    Selection 
+    Crossover 
+    Mutation 
+    Compute fitness
 UNTIL population has converged
 STOP
 """
@@ -34,28 +36,37 @@ import numpy as np
 
 
 """Make main polot of function"""
-# Axis
+#Axis
 x = np.linspace(fun.LOWER_X, fun.UPPER_X, 50)
-y = np.linspace(fun.LOWER_Y, fun.UPPER_Y, 50)
-
-#Ploting
+if(param.PLANE_INTERSECTION):
+    y = np.linspace(0, 0.0000000001, 50)
+else:
+    y = np.linspace(fun.LOWER_Y, fun.UPPER_Y, 50)
+#Ploting initial graph
 X,Y = np.meshgrid(x,y)
 Z = fun.mathFunction(X,Y)
-figure = plt.figure()
+figure = plt.figure(figsize=(10,10))
 ax = plt.axes(projection='3d')
-ax.plot_surface(X,Y,Z, rstride=1, cstride=1, alpha=0.6 ,cmap='binary',edgecolor='none')
+ax.plot_surface(X,Y,Z, rstride=1, cstride=1, alpha=0.4 ,cmap='viridis',edgecolor='none')
+#ax.contour3D(X, Y, Z, 50, cmap='binary')
+#ax.view_init(azim=40, elev=20)
+ax.set(xlabel='x-osa', ylabel='y-osa', zlabel='z-osa')
+ax.set_title('Genetički algoritam', fontsize=14)
 
-
+#Set a global extremum to an initial value
 globalExtremum = 0.0
 
 """ Phase No.1 - Initialization Of The Population """
 #Make a population of chromosomes
 initialPopulation = phase.initializePopulation()
-#plot initial population
+#Plot initial population
+ax.scatter(0.0,0.0,0.0,c="red",label="Inicijalna populacija",marker=9)
 for chrom in initialPopulation:
-    ax.scatter(chrom.getX(),chrom.getY() , fun.mathFunction(chrom.getX(),chrom.getY()),c="red",label="initial",marker=8)
+    ax.scatter(chrom.getX(),chrom.getY() , fun.mathFunction(chrom.getX(),chrom.getY()),c="red",marker=8)
+
 """ Phase No.2 - Fitness Function """
-population,globalExtremum = phase.fitnessEvaluation(initialPopulation)
+population, globalExtremum = phase.fitnessEvaluation(initialPopulation)
+#Calculate population fitness score
 populationFitnessScore = bin.calculatePopulationFitnessScore(population)
 print("Initial population fitness score: ", populationFitnessScore)
 
@@ -79,14 +90,24 @@ for x in range(param.NUMBER_OF_ITERATIONS):
         populationFitnessScore = subPopulationFitnessScore
         globalExtremum = localExtremum
         print("POPULATION CHANGED")
-#plot final population
-for chrom in population:
-    ax.scatter(chrom.getX(), chrom.getY(), fun.mathFunction(chrom.getX(),chrom.getY()),c="green",label="subgeneration",marker=9)
-print("Final population fitness score: ", populationFitnessScore)
-population.sort(key = lambda e: e.fitnessValue, reverse = True)
-ax.scatter(population[0].getX(),population[0].getY(), fun.mathFunction(population[0].getX(),population[0].getY()),c="blue",label="best")
-print("SOLUTION: x=",population[0].getX()," y=",population[0].getY()," z=", fun.mathFunction(population[0].getX(),population[0].getY()))
+        if(populationFitnessScore==0):
+            break
 
-ax.set(xlabel='x-osa', ylabel='y-osa', zlabel='z-osa', title='Genetički algoritam')
+#plot final population
+ax.scatter(0.0,0.0,0.0,c="green",label="Finalna populacija",marker=8)
+for chrom in population:
+    ax.scatter(chrom.getX(), chrom.getY(), fun.mathFunction(chrom.getX(),chrom.getY()),c="green",marker=9)
+print("Final population fitness score: ", populationFitnessScore)
+#Sort population by fitness value
+population.sort(key = lambda e: e.fitnessValue, reverse = True)
+#Plot the best solution as a blue dot
+x = population[0].getX()
+y = population[0].getY()
+z = fun.mathFunction(population[0].getX(),population[0].getY())
+ax.scatter(x, y, z, c="blue", label="x = "+str(x)+"\ny = "+str(y)+"\nz = " + str(z))
+print("==> SOLUTION: x= ",x," y= ",y," z= ", z)
+
+#Show the plot
+ax.legend(loc='upper right')
 ax.grid()
 plt.show()

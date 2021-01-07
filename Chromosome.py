@@ -59,39 +59,96 @@ class Chromosome:
 
     #Methond for recombining two chromosomes
     def recombine(self, otherChromosome):
-        """X-coordinate"""
-        #Choose a point on which we break DNA and interchange right parts
-        randomNumber = random.uniform(0,1)
-        #Transform random number to a segment [1 - len(DNA)]
-        disectionPoint = m.floor(bin.transformToInterval(randomNumber,0,1,1,len(self.xDNA)))
-        #Now disect both DNAs and get sequence right of disection point
-        sequence1 = self.xDNA[disectionPoint:]
-        sequence2 = (otherChromosome.getDNASequenceX())[disectionPoint:]
-        #Interchange the parts of DNA right from disection point
-        self.setDnaSequenceX(self.xDNA.replace(self.xDNA[disectionPoint:], sequence2))
-        dna = otherChromosome.getDNASequenceX()
-        otherChromosome.setDnaSequenceX(dna.replace(dna[disectionPoint:],sequence1))
-        #Regenerate coordinates from new DNAs
-        self.setX(bin.decodeBinary(self.getDNASequenceX(), fun.LOWER_X, fun.UPPER_X))
-        otherChromosome.setX(bin.decodeBinary(otherChromosome.getDNASequenceX(), fun.LOWER_X, fun.UPPER_X))
+        if(param.RECOMBINARION_METHOD == 1):
+            """X-coordinate"""
+            #Choose a point on which we break DNA and interchange right parts
+            randomNumber = random.uniform(0,1)
+            #Transform random number to a segment [1 - len(DNA)]
+            disectionPoint = m.floor(bin.transformToInterval(randomNumber,0,1,1,len(self.xDNA)))
+            #Now disect both DNAs and get sequence right of disection point
+            sequence1 = self.xDNA[disectionPoint:]
+            sequence2 = (otherChromosome.getDNASequenceX())[disectionPoint:]
+            #Interchange the parts of DNA right from disection point
+            self.setDnaSequenceX(self.xDNA.replace(self.xDNA[disectionPoint:], sequence2))
+            dna = otherChromosome.getDNASequenceX()
+            otherChromosome.setDnaSequenceX(dna.replace(dna[disectionPoint:],sequence1))
+            #Regenerate coordinates from new DNAs
+            self.setX(bin.decodeBinary(self.getDNASequenceX(), fun.LOWER_X, fun.UPPER_X))
+            otherChromosome.setX(bin.decodeBinary(otherChromosome.getDNASequenceX(), fun.LOWER_X, fun.UPPER_X))
+            """Y-coordinate"""
+            #Choose a point on which we break DNA and interchange right parts
+            randomNumber = random.uniform(0,1)
+            #Transform random number to a segment [1 - len(DNA)]
+            disectionPoint = m.floor(bin.transformToInterval(randomNumber,0,1,1,len(self.yDNA)))
+            #Now disect both DNAs and get sequence right of disection point
+            sequence1 = self.yDNA[disectionPoint:]
+            sequence2 = (otherChromosome.getDNASequenceY())[disectionPoint:]
+            #Interchange the parts of DNA right from disection point
+            self.setDnaSequenceY(self.yDNA.replace(self.yDNA[disectionPoint:], sequence2))
+            dna = otherChromosome.getDNASequenceY()
+            otherChromosome.setDnaSequenceY(dna.replace(dna[disectionPoint:],sequence1))
+            #Regenerate coordinates from new DNAs
+            self.setY(bin.decodeBinary(self.getDNASequenceY(), fun.LOWER_Y, fun.UPPER_Y))
+            otherChromosome.setY(bin.decodeBinary(otherChromosome.getDNASequenceY(), fun.LOWER_Y, fun.UPPER_Y))
+        
+        elif(param.RECOMBINARION_METHOD == 2):
+            #Simply swap y coordinates in chromosomes
+            y1 = self.getY()
+            y2 = otherChromosome.getY()
+            #Set new coordinates 
+            self.setY(y2)
+            self.setDnaSequenceY(bin.codeBinary(param.PRECISION,y2,fun.LOWER_Y,fun.UPPER_Y))
+            otherChromosome.setY(y1)
+            otherChromosome.setDnaSequenceY(bin.codeBinary(param.PRECISION,y1,fun.LOWER_Y,fun.UPPER_Y))
 
-        """Y-coordinate"""
-        #Choose a point on which we break DNA and interchange right parts
-        randomNumber = random.uniform(0,1)
-        #Transform random number to a segment [1 - len(DNA)]
-        disectionPoint = m.floor(bin.transformToInterval(randomNumber,0,1,1,len(self.yDNA)))
-        #Now disect both DNAs and get sequence right of disection point
-        sequence1 = self.yDNA[disectionPoint:]
-        sequence2 = (otherChromosome.getDNASequenceY())[disectionPoint:]
-        #Interchange the parts of DNA right from disection point
-        self.setDnaSequenceY(self.yDNA.replace(self.yDNA[disectionPoint:], sequence2))
-        dna = otherChromosome.getDNASequenceY()
-        otherChromosome.setDnaSequenceY(dna.replace(dna[disectionPoint:],sequence1))
-        #Regenerate coordinates from new DNAs
-        self.setY(bin.decodeBinary(self.getDNASequenceY(), fun.LOWER_Y, fun.UPPER_Y))
-        otherChromosome.setY(bin.decodeBinary(otherChromosome.getDNASequenceY(), fun.LOWER_Y, fun.UPPER_Y))
+        elif(param.RECOMBINARION_METHOD == 3):
+            #Simply swap x coordinates in chromosomes
+            x1 = self.getX()
+            x2 = otherChromosome.getX()
+            #Set new coordinates
+            self.setX(x2)
+            self.setDnaSequenceX(bin.codeBinary(param.PRECISION,x2,fun.LOWER_X,fun.UPPER_X))
+            otherChromosome.setX(x1)
+            otherChromosome.setDnaSequenceX(bin.codeBinary(param.PRECISION,x1,fun.LOWER_X,fun.UPPER_X))
 
+        elif(param == 4):
+            """X-coordinate"""
+            binarySequence1 = self.getDNASequenceX()
+            binarySequence2 = otherChromosome.getDNASequenceX()
+            newSequence1 = ""
+            newSequence2 = ""
+            flip = True
+            for gene1,gene2 in zip(binarySequence1,binarySequence2):
+                if(flip):
+                    newSequence1 += gene1
+                    newSequence2 += gene2
+                else:
+                    newSequence1 += gene2
+                    newSequence2 += gene1
+                flip = not flip
+            self.setDnaSequenceX(newSequence1)
+            self.setX(bin.decodeBinary(newSequence1,fun.LOWER_X,fun.UPPER_X))
+            otherChromosome.setDnaSequenceX(newSequence2)
+            otherChromosome.setX(bin.decodeBinary(newSequence2,fun.LOWER_X,fun.UPPER_X))
 
+            """Y-coordinate"""
+            binarySequence1 = self.getDNASequenceY()
+            binarySequence2 = otherChromosome.getDNASequenceY()
+            newSequence1 = ""
+            newSequence2 = ""
+            flip = True
+            for gene1,gene2 in zip(binarySequence1,binarySequence2):
+                if(flip):
+                    newSequence1 += gene1
+                    newSequence2 += gene2
+                else:
+                    newSequence1 += gene2
+                    newSequence2 += gene1
+                flip = not flip
+            self.setDnaSequenceY(newSequence1)
+            self.setY(bin.decodeBinary(newSequence1,fun.LOWER_Y,fun.UPPER_Y))
+            otherChromosome.setDnaSequenceY(newSequence2)
+            otherChromosome.setY(bin.decodeBinary(newSequence2,fun.LOWER_Y,fun.UPPER_Y))
 
     #Method for mutating a chromosome
     def mutate(self):
