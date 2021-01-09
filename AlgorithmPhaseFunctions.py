@@ -6,6 +6,7 @@ import function as fun
 import BinaryCoding as bin
 import Chromosome as hrom
 import parameters as param
+import SavePopulation as save
 
 """ POPULATION INITIALIZATION """
 #Function for making an initial population
@@ -17,7 +18,10 @@ def initializePopulation():
         randomNumber1 = random.uniform(0,1)
         randomNumber2 = random.uniform(0,1)
         #Translate generated number into a point from function extremum interval
-        coordinateX = bin.transformToInterval(randomNumber1,0,1,fun.LOWER_X, fun.UPPER_X)
+        if(param.PLANE_INTERSECTION):
+            coordinateX = 0.0
+        else:
+            coordinateX = bin.transformToInterval(randomNumber1,0,1,fun.LOWER_X, fun.UPPER_X)
         coordinateY = bin.transformToInterval(randomNumber2,0,1,fun.LOWER_Y, fun.UPPER_Y)
         #code point in binary
         binarySequenceX = bin.codeBinary(param.PRECISION, coordinateX, fun.LOWER_X, fun.UPPER_X)
@@ -26,6 +30,8 @@ def initializePopulation():
         newChromosome = hrom.Chromosome(coordinateX, binarySequenceX, coordinateY, binarySequenceY)
         #add it to the population
         population.append(newChromosome)
+    #save.savePopulation(population)
+    #population = save.loadPopulation("Population.txt")
     #calculate initial fitness values
     coordinatesX = []
     coordinatesY = []
@@ -149,7 +155,6 @@ def mutation(population):
             population[x].mutate()
     return population
 
-
 #When to change population?
 def populationChangeCondition(localExtremum, globalExtremum, subPopulationScore, populationScore):
     if(param.EXTREMUM == "max"):
@@ -159,3 +164,4 @@ def populationChangeCondition(localExtremum, globalExtremum, subPopulationScore,
         if(localExtremum <= globalExtremum):# and subPopulationScore >= populationScore):
             return True
     return False
+

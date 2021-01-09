@@ -7,7 +7,6 @@ Faculty of Electrical Engineering Banja Luka
 
 """
 Pseudo-code:
-
 START
 Generate the initial population
 Compute fitness 
@@ -47,9 +46,10 @@ X,Y = np.meshgrid(x,y)
 Z = fun.mathFunction(X,Y)
 figure = plt.figure(figsize=(10,10))
 ax = plt.axes(projection='3d')
-ax.plot_surface(X,Y,Z, rstride=1, cstride=1, alpha=0.4 ,cmap='viridis',edgecolor='none')
+ax.plot_surface(X,Y,Z, rstride=1, cstride=1, alpha=0.5 ,cmap='viridis',edgecolor='none')
 #ax.contour3D(X, Y, Z, 50, cmap='binary')
-#ax.view_init(azim=40, elev=20)
+if(param.PLANE_INTERSECTION):
+    ax.view_init(0, 0)
 ax.set(xlabel='x-osa', ylabel='y-osa', zlabel='z-osa')
 ax.set_title('Genetički algoritam', fontsize=14)
 
@@ -84,14 +84,14 @@ for x in range(param.NUMBER_OF_ITERATIONS):
     #Make a list of chromosome x coordinates
     subPopulation,localExtremum = phase.fitnessEvaluation(subPopulation)
     subPopulationFitnessScore = bin.calculatePopulationFitnessScore(subPopulation)
-    print("SubPopulation fitness score: ",subPopulationFitnessScore)
+    if(subPopulationFitnessScore == 0):
+        break
+    #print("SubPopulation fitness score: ",subPopulationFitnessScore)
     if(populationChangeCondition(localExtremum,globalExtremum,subPopulationFitnessScore,populationFitnessScore)):
         population = subPopulation
         populationFitnessScore = subPopulationFitnessScore
         globalExtremum = localExtremum
         print("POPULATION CHANGED")
-        if(populationFitnessScore==0):
-            break
 
 #plot final population
 ax.scatter(0.0,0.0,0.0,c="green",label="Finalna populacija",marker=8)
