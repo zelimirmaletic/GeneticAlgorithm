@@ -93,7 +93,7 @@ for x in range(param.NUMBER_OF_ITERATIONS):
         globalExtremum = localExtremum
         print("POPULATION CHANGED")
 
-#plot final population
+#Plot final population
 ax.scatter(0.0,0.0,0.0,c="green",label="Finalna populacija",marker=8)
 for chrom in population:
     ax.scatter(chrom.getX(), chrom.getY(), fun.mathFunction(chrom.getX(),chrom.getY()),c="green",marker=9)
@@ -105,7 +105,7 @@ x = population[0].getX()
 y = population[0].getY()
 z = fun.mathFunction(population[0].getX(),population[0].getY())
 ax.scatter(x, y, z, c="blue", label="x = "+str(x)+"\ny = "+str(y)+"\nz = " + str(z))
-print("==> SOLUTION: x= ",x," y= ",y," z= ", z)
+print("==> EXTREMUM: x = ",x," y = ",y," z = ", z)
 
 #Show the plot
 ax.legend(loc='upper right')

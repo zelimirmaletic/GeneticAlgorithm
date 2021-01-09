@@ -59,6 +59,7 @@ class Chromosome:
 
     #Methond for recombining two chromosomes
     def recombine(self, otherChromosome):
+        #Single-point recombination
         if(param.RECOMBINARION_METHOD == 1):
             """X-coordinate"""
             #Choose a point on which we break DNA and interchange right parts
@@ -90,7 +91,7 @@ class Chromosome:
             #Regenerate coordinates from new DNAs
             self.setY(bin.decodeBinary(self.getDNASequenceY(), fun.LOWER_Y, fun.UPPER_Y))
             otherChromosome.setY(bin.decodeBinary(otherChromosome.getDNASequenceY(), fun.LOWER_Y, fun.UPPER_Y))
-        
+        #Swap x coordinates recombination
         elif(param.RECOMBINARION_METHOD == 2):
             #Simply swap y coordinates in chromosomes
             y1 = self.getY()
@@ -100,7 +101,7 @@ class Chromosome:
             self.setDnaSequenceY(bin.codeBinary(param.PRECISION,y2,fun.LOWER_Y,fun.UPPER_Y))
             otherChromosome.setY(y1)
             otherChromosome.setDnaSequenceY(bin.codeBinary(param.PRECISION,y1,fun.LOWER_Y,fun.UPPER_Y))
-
+        #Swap y coordinates recombination
         elif(param.RECOMBINARION_METHOD == 3):
             #Simply swap x coordinates in chromosomes
             x1 = self.getX()
@@ -110,7 +111,7 @@ class Chromosome:
             self.setDnaSequenceX(bin.codeBinary(param.PRECISION,x2,fun.LOWER_X,fun.UPPER_X))
             otherChromosome.setX(x1)
             otherChromosome.setDnaSequenceX(bin.codeBinary(param.PRECISION,x1,fun.LOWER_X,fun.UPPER_X))
-
+        #Uniform recombination
         elif(param == 4):
             """X-coordinate"""
             binarySequence1 = self.getDNASequenceX()
